@@ -4,30 +4,28 @@
   --valid-color: #2ecc71;
 }
 * {
-  margin: 0;
+  box-sizing: border-box;
 }
 body {
+  background-color: #cfe8ef;
   font-family: "Open Sans", sans-serif;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #cfe8ef;
+  margin: 0;
 }
-
 .container {
   background-color: #e5ecee;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgb(0 0 0 / 30%);
-  width: 300px;
+  width: 350px;
   padding: 30px;
 }
-
 form {
   display: flex;
   flex-direction: column;
 }
-
 h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -37,12 +35,10 @@ h2 {
   flex-direction: column;
   margin-bottom: 15px;
 }
-
 label {
   color: rgba(0, 0, 0, 0.678);
   margin-bottom: 5px;
 }
-
 input {
   padding: 10px;
   border: 1px solid #cfe8ef;
@@ -51,7 +47,6 @@ input {
 input:focus {
   outline: 2px solid #6c6f7d;
 }
-
 input[type="submit"] {
   margin-top: 10px;
   background-color: #6c6f7d;
@@ -67,7 +62,6 @@ span {
   color: var(--error-color);
   font-size: 14px;
 }
-
 .error {
   border: 2px solid var(--error-color);
 }

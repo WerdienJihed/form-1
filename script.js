@@ -25,8 +25,8 @@ const verifyConfirmPassword = (input, password) => {
 };
 
 const handleElementError = (element) => {
-  element.classList.remove("valid");
-  element.classList.add("error");
+  const formControl = element.parentElement;
+  formControl.className = "form-control error";
   let errorMessage = "";
   switch (element) {
     case username:
@@ -45,14 +45,12 @@ const handleElementError = (element) => {
       errorMessage = "Something went wrong!";
       break;
   }
-  element.closest(".form-control").querySelector(".error-message").innerText =
-    errorMessage;
+  formControl.querySelector(".error-message").innerText = errorMessage;
 };
 
 const handleElementValid = (element) => {
-  element.classList.remove("error");
-  element.classList.add("valid");
-  element.closest(".block").querySelector(".error-message").innerText = "";
+  const formControl = element.parentElement;
+  formControl.className = "form-control success";
 };
 
 const verifyForm = (e) => {

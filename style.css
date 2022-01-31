@@ -33,7 +33,7 @@ h2 {
 .form-control {
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 label {
   color: rgba(0, 0, 0, 0.678);
@@ -61,10 +61,14 @@ input[type="submit"]:hover {
 span {
   color: var(--error-color);
   font-size: 14px;
+  visibility: hidden;
 }
-.error {
+.form-control.error span {
+  visibility: visible;
+}
+.form-control.error input {
   border: 2px solid var(--error-color);
 }
-.valid {
+.form-control.success input {
   border: 2px solid var(--valid-color);
 }

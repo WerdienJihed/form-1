@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 :root {
   --error-color: #e74c3c;
-  --valid-color: #2ecc71;
+  --success-color: #2ecc71;
 }
 * {
   box-sizing: border-box;
@@ -68,4 +68,43 @@ span {
 }
 .form-control.error input {
   border: 2px solid var(--error-color);
+}
+
+/* modal */
+
+.modal {
+  width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 30%);
+  position: absolute;
+  transform: translateY(-10px);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.6s;
+}
+
+.modal_btn-container {
+  display: flex;
+  justify-content: center;
+}
+.modal_btn {
+  background-color: var(--success-color);
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+}
+.modal_btn:hover {
+  cursor: pointer;
+}
+
+.modal.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(10px);
+}
+
+.blur {
+  filter: blur(4px);
 }

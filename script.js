@@ -1,10 +1,13 @@
 "use strict";
 // dom elements
+const container = document.querySelector(".container");
 const form = document.getElementById("form");
 const username = document.getElementById("username");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirmPassword");
+const modal = document.querySelector(".modal");
+const modalBtn = document.querySelector(".modal_btn");
 
 // functions
 const resetFormErrors = () => {
@@ -106,11 +109,28 @@ const checkConfirmPassword = (password, confirmPassword) => {
 const verifyForm = (e) => {
   e.preventDefault();
   resetFormErrors();
-  checkUsername(username);
-  checkEmail(email);
-  checkPassword(password);
-  checkConfirmPassword(password, confirmPassword);
+  if (
+    checkUsername(username) &&
+    checkEmail(email) &&
+    checkPassword(password) &&
+    checkConfirmPassword(password, confirmPassword)
+  ) {
+    modal.classList.add("show");
+    container.classList.add("blur");
+  }
 };
 
 // event listeners
 form.addEventListener("submit", verifyForm);
+modalBtn.addEventListener("click", () => {
+  modal.classList.remove("show");
+  container.classList.remove("blur");
+});
+const init = () => {
+  username.value = "A00";
+  email.value = "informatique.jihed@gmail.com";
+  password.value = "pqC6#!5fbc";
+  confirmPassword.value = "pqC6#!5fbc";
+};
+
+init();

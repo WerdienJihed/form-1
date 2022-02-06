@@ -7,65 +7,109 @@ const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirmPassword");
 
 // functions
-const verifyUsername = (input) => {
-  return input.length >= 3;
+const resetFormErrors = () => {
+  form
+    .querySelectorAll(".form-control")
+    .forEach((formControl) => (formControl.className = "form-control"));
 };
-const verifyEmail = (input) => {
-  return String(input)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+const showError = (input, message) => {
+  const formControl = input.parentElement;
+  formControl.className = "form-control error";
+  const errorContainer = formControl.querySelector(".error-message");
+  errorContainer.innerText = message;
+};
+
+const checkRequired = (input) => {
+  if (input.value.trim() === "") {
+    showError(input, `${input.name} is required!`);
+    return true;
+  }
+  return false;
+};
+
+const checkLength = (input, min, max) => {
+  if (input.value.length < min) {
+    showError(input, `${input.name} must be at least ${min} characters!`);
+    return true;
+  }
+  if (input.value.length > max) {
+    showError(input, `${input.name} must be less than ${max} characters!`);
+    return true;
+  }
+  return false;
+};
+
+const checkStartWithLetter = (input) => {
+  const isFirstCharacterAlphabet = /^[A-Za-z]/.test(input.value);
+  if (!isFirstCharacterAlphabet) {
+    showError(input, `${input.name} must start with a letter!`);
+    return true;
+  }
+  return false;
+};
+
+const checkEmailFormat = (email) => {
+  const isValidEmailFormat =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email.value
+    );
+
+  if (!isValidEmailFormat) {
+    showError(email, `Email is not valid!`);
+    return true;
+  }
+  return false;
+};
+const checkAlphaNumSym = (password) => {
+  const isValid = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?])/.test(
+    password.value
+  );
+  if (!isValid)
+    showError(
+      password,
+      `Password should contain lowercase,uppercase letter ,symbol and number and does not contain white spaces!`
     );
 };
-const verifyPassword = (input) => {
-  return input.length >= 6;
-};
-const verifyConfirmPassword = (input, password) => {
-  return input.length > 0 && input === password;
+const checkPasswordsMatch = (password, ConfirmPassword) => {
+  if (password.value !== confirmPassword.value)
+    showError(confirmPassword, `Passwords do not match!`);
 };
 
-const handleElementError = (element) => {
-  const formControl = element.parentElement;
-  formControl.className = "form-control error";
-  let errorMessage = "";
-  switch (element) {
-    case username:
-      errorMessage = "Username must be at least 3 characters";
-      break;
-    case email:
-      errorMessage = "Email is not valid";
-      break;
-    case password:
-      errorMessage = "Password must be at least 6 characters";
-      break;
-    case confirmPassword:
-      errorMessage = "Confirming password is required";
-      break;
-    default:
-      errorMessage = "Something went wrong!";
-      break;
-  }
-  formControl.querySelector(".error-message").innerText = errorMessage;
+/* Fields validation */
+const checkUsername = (username) => {
+  if (checkRequired(username)) return false;
+  if (checkStartWithLetter(username)) return false;
+  if (checkLength(username, 3, 15)) return false;
+  return true;
 };
 
-const handleElementValid = (element) => {
-  const formControl = element.parentElement;
-  formControl.className = "form-control success";
+const checkEmail = (email) => {
+  if (checkRequired(email)) return false;
+  if (checkEmailFormat(email)) return false;
+  return true;
 };
 
+const checkPassword = (password) => {
+  if (checkRequired(password)) return false;
+  if (checkLength(password, 6, 25)) return false;
+  if (checkAlphaNumSym(password)) return false;
+  return true;
+};
+const checkConfirmPassword = (password, confirmPassword) => {
+  if (checkRequired(confirmPassword)) return false;
+  if (checkPasswordsMatch(password, confirmPassword)) return false;
+  return true;
+};
+
+/* Form validation */
 const verifyForm = (e) => {
   e.preventDefault();
-  if (!verifyUsername(username.value)) handleElementError(username);
-  else handleElementValid(username);
-  if (!verifyEmail(email.value)) handleElementError(email);
-  else handleElementValid(email);
-
-  if (!verifyPassword(password.value)) handleElementError(password);
-  else handleElementValid(password);
-
-  if (!verifyConfirmPassword(confirmPassword.value, password.value))
-    handleElementError(confirmPassword);
-  else handleElementValid(confirmPassword);
+  resetFormErrors();
+  checkUsername(username);
+  checkEmail(email);
+  checkPassword(password);
+  checkConfirmPassword(password, confirmPassword);
 };
 
 // event listeners
